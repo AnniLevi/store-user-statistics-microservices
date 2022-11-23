@@ -2,11 +2,25 @@ version: "3.8"
 
 services:
 
+  api_gateway:
+    build:
+      context: api_gateway
+      dockerfile: ../Dockerfile
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./api_gateway/:/code/
+    ports:
+      - "8000:8000"
+    env_file:
+      - envs/.ag.env
+    depends_on:
+      - database
+
   user_personal_info:
     build:
       context: user_service
       dockerfile: ../Dockerfile
-    command: gunicorn app.main:app --bind 0.0.0.0:8000
+    command: gunicorn main:app --bind 0.0.0.0:8000
     volumes:
       - ./user_service/:/code/
     ports:
@@ -27,20 +41,6 @@ services:
       - "8002:8000"
     env_file:
       - envs/.ei.env
-    depends_on:
-      - database
-
-  api_gateway:
-    build:
-      context: api_gateway
-      dockerfile: ../Dockerfile
-    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-    volumes:
-      - ./api_gateway/:/code/
-    ports:
-      - "8000:8000"
-    env_file:
-      - envs/.ag.env
     depends_on:
       - database
 
