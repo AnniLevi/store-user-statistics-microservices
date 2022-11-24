@@ -12,16 +12,6 @@ api = Api(api_bp)
 
 
 class AuthView(Resource):
-    def get(self):
-        parser = self._get_query_params_parser()
-        args = parser.parse_args()
-        try:
-            user = User.query.filter(User.email == args["email"]).one()
-            schema = UserIdSchema()
-            return schema.dump(user)
-        except NoResultFound:
-            abort(404, message="User with given email not found")
-
     def post(self):
         parser = self._get_request_body_parser()
         parser.replace_argument("username", type=str, location="form", required=True)
@@ -54,16 +44,6 @@ class AuthView(Resource):
         db.session.commit()
         return make_response({"message": "User successfully updated"}, 201)
 
-    def delete(self):
-        parser = self._get_query_params_parser()
-        args = parser.parse_args()
-        user = User.query.filter(User.email.like(args["email"])).one_or_none()
-        if not user:
-            abort(404, message="User with given email not found")
-        db.session.delete(user)
-        db.session.commit()
-        return make_response({"message": "User successfully deleted"}, 200)
-
     def _get_request_body_parser(self) -> reqparse.RequestParser:
         parser = reqparse.RequestParser()
         parser.add_argument("email", type=str, location="form", required=True)
@@ -74,10 +54,27 @@ class AuthView(Resource):
         parser.add_argument("store_id", type=int, location="form", required=True)
         return parser
 
-    def _get_query_params_parser(self) -> reqparse.RequestParser:
-        parser = reqparse.RequestParser()
-        parser.add_argument("email", type=str, location="args", required=True)
-        return parser
+
+class UserRetrieveView(Resource):
+    def get(self, user_email: str):
+        try:
+            user = User.query.filter(User.email.like(user_email)).one()
+            schema = UserIdSchema()
+            return schema.dump(user)
+        except NoResultFound:
+            abort(404, message="User with given email not found")
+
+
+class UserDeleteView(Resource):
+    def delete(self, user_id: str):
+        user = User.query.filter(User.id == user_id).one_or_none()
+        if not user:
+            abort(404, message="User not found")
+        db.session.delete(user)
+        db.session.commit()
+        return make_response({"message": "User successfully deleted"}, 200)
 
 
 api.add_resource(AuthView, "/user/")
+api.add_resource(UserRetrieveView, "/user/<user_email>")
+api.add_resource(UserDeleteView, "/user/<user_id>")
