@@ -129,10 +129,53 @@ request:
 response (code 201):
 {
   "id": int,
-    "type": str,
+  "type": str,
   "store_id": int,
   "user_id": str,
   "data": json
   "created_at": datetime
 }
+```
+- DELETE /api/event/<user_id>
+```
+
+response (code 200):
+{
+    "message": "<int> events were deleted"
+}
+```
+
+- GET /api/event/amount/<event_type>
+```
+response (code 200):
+[
+  {
+    "date": date,
+    "event_amount": int
+  },
+  ...
+]
+```
+
+- GET /api/event/avg-time/<event_type>
+```
+response (code 200):
+[
+  {
+    "date": date,
+    "event_avg_time": float
+  },
+  ...
+]
+```
+- GET /api/event/store-events-amount/<store_id>
+```
+response (code 200):
+[
+  {
+    "date": date,
+    "event_amount": int
+  },
+  ...
+]
 ```

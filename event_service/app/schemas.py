@@ -21,3 +21,15 @@ class Event(EventBase):
 
     class Config:
         orm_mode = True
+
+
+class EventStatistics(BaseModel):
+    date: datetime.date
+
+
+class EventAmountStatistics(EventStatistics):
+    event_amount: int
+
+
+class EventAvgTimeStatistics(EventStatistics):
+    event_avg_time: float

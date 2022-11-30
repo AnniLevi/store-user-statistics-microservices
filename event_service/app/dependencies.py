@@ -7,3 +7,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def pagination_query_params(offset: int = 0, limit: int = 50):
+    return {"offset": offset, "limit": limit}
