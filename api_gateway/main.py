@@ -1,8 +1,3 @@
-from fastapi import FastAPI
+from app import create_app
 
-app = FastAPI()
-
-
-@app.get("/")
-def index():
-    return "Hello in API Gateway - FastAPI"
+app = create_app()

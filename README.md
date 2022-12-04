@@ -46,20 +46,35 @@ or
 ```
 request:
 {
-
+    "api_key": str
 }
 
-response (code 201):
+response (code 200):
 {
-
+  "access_token": str,
+  "token_type": "Bearer"
 }
 ```
+#### endpoints for store
 
+
+#### endpoints for admin
+- GET /api/store
+```
+response (code 200):
+[
+  {
+    "id": int,
+    "name": str,
+    "is_active": bool
+  },
+  ...
+]
+```
 
 ### User Personal Info service (port 8001)
 - GET /api/user/<user_email>
 ```
-
 response (code 200):
 {
     "id": str(uuid)
