@@ -56,6 +56,13 @@ response (code 200):
 }
 ```
 #### endpoints for store
+- GET /api/user/<user_email>
+```
+response (code 200):
+{
+    "id": str(uuid)
+}
+```
 - POST /api/user
 ```
 request:
@@ -77,6 +84,24 @@ response (code 201):
     "phone": int,
     "store_id": int
 }
+```
+- PATCH /api/user
+```
+request:
+{
+    "email": str,
+    "username": str,
+    "first_name": str,
+    "last_name": str,
+    "phone": int,
+    "store_id": int
+}
+
+response (code 201):
+{
+    "message": "User successfully updated"
+}
+```
 
 #### endpoints for admin
 - GET /api/store

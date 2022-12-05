@@ -4,10 +4,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import ExpiredSignatureError, JWTError, jwt
 from sqlalchemy.orm import Session
 
-from .exc import exceptions
 from ..config import base_config
 from ..db_crud import auth_db
 from ..schemas import auth_schemas
+from .exc import exceptions
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
