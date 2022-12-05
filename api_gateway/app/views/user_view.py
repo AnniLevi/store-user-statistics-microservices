@@ -36,3 +36,14 @@ def create_user(user: user_schemas.UserCreate, consumer=Depends(active_required)
 def update_user(user: user_schemas.UserCreate, consumer=Depends(active_required)):
     url, payload = _user_create_update_common(user, consumer)
     return requests.patch(url=url, data=payload).json()
+
+
+@user_router.delete(
+    "/{user_id}", dependencies=[Depends(active_required)], status_code=status.HTTP_200_OK
+)
+def delete_user_events(user_id: str):
+    user_url = f"{base_config.USER_SERVICE_URL}/api/user/{user_id}"
+    event_url = f"{base_config.EVENT_SERVICE_URL}/api/event/{user_id}"
+    user_response = requests.delete(url=user_url).json()
+    event_response = requests.delete(url=event_url).json()
+    return {"user": user_response["message"], "events": event_response["message"]}

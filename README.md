@@ -102,6 +102,15 @@ response (code 201):
     "message": "User successfully updated"
 }
 ```
+- DELETE /api/user/<user_id>
+```
+
+response (code 200):
+{
+    "user": "User successfully deleted",
+    "events": "<int> events were deleted"
+}
+```
 
 #### endpoints for admin
 - GET /api/store
