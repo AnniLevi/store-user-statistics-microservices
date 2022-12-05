@@ -39,7 +39,9 @@ def update_user(user: user_schemas.UserCreate, consumer=Depends(active_required)
 
 
 @user_router.delete(
-    "/{user_id}", dependencies=[Depends(active_required)], status_code=status.HTTP_200_OK
+    "/{user_id}",
+    dependencies=[Depends(active_required)],
+    status_code=status.HTTP_200_OK,
 )
 def delete_user_events(user_id: str):
     user_url = f"{base_config.USER_SERVICE_URL}/api/user/{user_id}"
