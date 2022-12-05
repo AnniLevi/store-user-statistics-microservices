@@ -2,9 +2,13 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from ..db_crud import store_db
-from ..dependencies import get_db, pagination_query_params
+from ..dependencies import (
+    active_required,
+    admin_required,
+    get_db,
+    pagination_query_params,
+)
 from ..schemas import store_schemas
-from ..utils.jwt import active_required, admin_required
 
 store_router = APIRouter()
 

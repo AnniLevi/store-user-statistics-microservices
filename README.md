@@ -56,7 +56,27 @@ response (code 200):
 }
 ```
 #### endpoints for store
+- POST /api/user
+```
+request:
+{
+    "email": str,
+    "username": str,
+    "first_name": str,
+    "last_name": str,
+    "phone": int,
+}
 
+response (code 201):
+{
+    "id": str(uuid)
+    "email": str,
+    "username": str,
+    "first_name": str,
+    "last_name": str,
+    "phone": int,
+    "store_id": int
+}
 
 #### endpoints for admin
 - GET /api/store

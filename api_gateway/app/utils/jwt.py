@@ -1,16 +1,13 @@
 from datetime import datetime, timedelta
 
-from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import ExpiredSignatureError, JWTError, jwt
 from sqlalchemy.orm import Session
 
+from .exc import exceptions
 from ..config import base_config
 from ..db_crud import auth_db
-from ..dependencies import get_db
-from ..models import Consumer
 from ..schemas import auth_schemas
-from .exc import exceptions
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -42,17 +39,6 @@ def parse_token(token: str):
         raise exceptions["credentials_exc"]
 
 
-def get_current_consumer(
-    db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)
-):
-    """by jwt token."""
-    token_data = parse_token(token=token)
-    consumer = auth_db.get_consumer_by_name(db=db, name=token_data.name)
-    if not consumer:
-        raise exceptions["credentials_exc"]
-    return consumer
-
-
 def authenticate_consumer(db: Session, api_key: str):
     """by api key."""
     consumer = auth_db.get_consumer_by_api_key(db=db, api_key=api_key)
@@ -60,15 +46,3 @@ def authenticate_consumer(db: Session, api_key: str):
         raise exceptions["apikey_exc"]
     access_token = create_access_token(data={"sub": consumer.name})
     return access_token
-
-
-def active_required(consumer: Consumer = Depends(get_current_consumer)):
-    if not consumer.is_active:
-        raise exceptions["inactive_exc"]
-    return consumer
-
-
-def admin_required(consumer: Consumer = Depends(get_current_consumer)):
-    if not consumer.is_admin:
-        raise exceptions["admin_exc"]
-    return consumer
