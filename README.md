@@ -167,6 +167,25 @@ response (code 200):
   ...
 ]
 ```
+- POST /api/store
+```
+request:
+{
+    "name": str,
+    "is_active": bool [optional],
+    "is_admin": bool [optional]
+}
+
+response (code 201):
+[
+  {
+    "id": int,
+    "name": str,
+    "is_active": bool
+  },
+  ...
+]
+```
 - GET /api/event/store-events-amount/<store_id>
 ```
 response (code 200):

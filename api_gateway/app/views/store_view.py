@@ -24,3 +24,13 @@ def all_stores_view(
     db: Session = Depends(get_db),
 ):
     return store_db.all_stores_db(db=db, **query_params)
+
+
+@store_router.post(
+    "/",
+    response_model=store_schemas.Store,
+    dependencies=[Depends(active_required), Depends(admin_required)],
+    status_code=status.HTTP_201_CREATED,
+)
+def create_store_view(store: store_schemas.StoreCreate, db: Session = Depends(get_db)):
+    return store_db.create_store_db(db=db, store_schema=store)
