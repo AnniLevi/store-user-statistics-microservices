@@ -39,5 +39,5 @@ def active_required(consumer: Consumer = Depends(_get_current_consumer)):
 
 def admin_required(consumer: Consumer = Depends(_get_current_consumer)):
     if not consumer.is_admin:
-        raise exceptions["admin_exc"]
+        raise exceptions["not_found_exc"]
     return consumer

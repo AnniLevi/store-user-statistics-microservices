@@ -186,6 +186,18 @@ response (code 201):
   ...
 ]
 ```
+- POST /api/store/block
+```
+request:
+{
+    "store_id": int
+}
+
+response (code 201):
+{
+    "message": "Store successfully blocked"
+}
+```
 - GET /api/event/store-events-amount/<store_id>
 ```
 response (code 200):
