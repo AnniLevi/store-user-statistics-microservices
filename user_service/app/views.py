@@ -75,6 +75,16 @@ class UserDeleteView(Resource):
         return make_response({"message": "User successfully deleted"}, 200)
 
 
+class UserDeleteByStoreView(Resource):
+    def delete(self, store_id: str):
+        users = User.query.filter(User.store_id == store_id).delete()
+        if not users:
+            abort(404, message="Users not found")
+        db.session.commit()
+        return make_response({"message": "Users successfully deleted"}, 200)
+
+
 api.add_resource(AuthView, "/user/")
 api.add_resource(UserRetrieveView, "/user/<user_email>")
 api.add_resource(UserDeleteView, "/user/<user_id>")
+api.add_resource(UserDeleteByStoreView, "/users/<store_id>")

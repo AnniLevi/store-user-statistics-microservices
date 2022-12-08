@@ -266,6 +266,14 @@ response (code 200):
     "message": "User successfully deleted"
 }
 ```
+- DELETE /api/users/<store_id>
+```
+
+response (code 200):
+{
+    "message": "Users successfully deleted"
+}
+```
 
 
 ### Event Info service (port 8002)
