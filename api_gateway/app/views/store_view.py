@@ -1,6 +1,8 @@
+import requests
 from fastapi import APIRouter, Body, Depends, status
 from sqlalchemy.orm import Session
 
+from ..config import base_config
 from ..db_crud import store_db
 from ..dependencies import (
     active_required,
@@ -47,3 +49,16 @@ def create_store_view(store_id: int = Body(embed=True), db: Session = Depends(ge
     if not result:
         raise exceptions["not_found_exc"]
     return {"message": "Store successfully blocked"}
+
+
+@store_router.delete(
+    "/{store_id}",
+    dependencies=[Depends(active_required), Depends(admin_required)],
+    status_code=status.HTTP_200_OK,
+)
+def delete_user_events_by_store(store_id: int):
+    user_url = f"{base_config.USER_SERVICE_URL}/api/user/by-store/{store_id}"
+    event_url = f"{base_config.EVENT_SERVICE_URL}/api/event/by-store/{store_id}"
+    user_response = requests.delete(url=user_url).json()
+    event_response = requests.delete(url=event_url).json()
+    return {"users": user_response["message"], "events": event_response["message"]}

@@ -186,6 +186,15 @@ response (code 201):
   ...
 ]
 ```
+- DELETE /api/store/<store_id>
+```
+
+response (code 200):
+{
+    "users": "<int> users were deleted",
+    "events": "<int> events were deleted"
+}
+```
 - POST /api/store/block
 ```
 request:
@@ -271,7 +280,7 @@ response (code 200):
 
 response (code 200):
 {
-    "message": "Users successfully deleted"
+    "message": "<int> users were deleted"
 }
 ```
 

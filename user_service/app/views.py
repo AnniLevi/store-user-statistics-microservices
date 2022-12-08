@@ -81,10 +81,10 @@ class UserDeleteByStoreView(Resource):
         if not users:
             abort(404, message="Users not found")
         db.session.commit()
-        return make_response({"message": "Users successfully deleted"}, 200)
+        return make_response({"message": f"{users} users were deleted"}, 200)
 
 
 api.add_resource(AuthView, "/user/")
 api.add_resource(UserRetrieveView, "/user/<user_email>")
 api.add_resource(UserDeleteView, "/user/<user_id>")
-api.add_resource(UserDeleteByStoreView, "/users/<store_id>")
+api.add_resource(UserDeleteByStoreView, "/user/by-store/<store_id>")
