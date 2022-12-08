@@ -76,7 +76,7 @@ class UserDeleteView(Resource):
 
 
 class UserDeleteByStoreView(Resource):
-    def delete(self, store_id: str):
+    def delete(self, store_id: int):
         users = User.query.filter(User.store_id == store_id).delete()
         if not users:
             abort(404, message="Users not found")

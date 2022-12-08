@@ -266,7 +266,7 @@ response (code 200):
     "message": "User successfully deleted"
 }
 ```
-- DELETE /api/users/<store_id>
+- DELETE /api/user/by-store/<store_id>
 ```
 
 response (code 200):
@@ -298,6 +298,14 @@ response (code 201):
 }
 ```
 - DELETE /api/event/<user_id>
+```
+
+response (code 200):
+{
+    "message": "<int> events were deleted"
+}
+```
+- DELETE /api/event/by-store/<store_id>
 ```
 
 response (code 200):
