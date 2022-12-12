@@ -21,6 +21,6 @@ exceptions = {
         detail="Available only for active consumers",
     ),
     "not_found_exc": HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND, detail="Resource does not exist"
+        status_code=status.HTTP_404_NOT_FOUND, detail="Not Found"
     ),
 }
