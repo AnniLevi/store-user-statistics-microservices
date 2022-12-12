@@ -20,6 +20,12 @@ def delete_user_events_view(user_id: str, db: Session = Depends(get_db)):
     return {"message": f"{events_deleted} events were deleted"}
 
 
+@event_router.delete("/by-store/{store_id}", status_code=status.HTTP_200_OK)
+def delete_user_events_by_store_view(store_id: int, db: Session = Depends(get_db)):
+    events_deleted = crud.delete_user_events_by_store_db(db=db, store_id=store_id)
+    return {"message": f"{events_deleted} events were deleted"}
+
+
 @event_router.get(
     "/amount/{event_type}",
     response_model=list[schemas.EventAmountStatistics],

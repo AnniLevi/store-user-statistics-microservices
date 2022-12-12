@@ -20,6 +20,12 @@ def delete_user_events_db(user_id: str, db: Session):
     return user_events
 
 
+def delete_user_events_by_store_db(store_id: int, db: Session):
+    user_events = db.query(Event).filter_by(store_id=store_id).delete()
+    db.commit()
+    return user_events
+
+
 def events_amount_db(event_type: str, db: Session, offset: int, limit: int):
     """The number of times this event occurred each day for all users."""
     return (

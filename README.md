@@ -46,20 +46,182 @@ or
 ```
 request:
 {
+    "api_key": str
+}
 
+response (code 200):
+{
+  "access_token": str,
+  "token_type": "Bearer"
+}
+```
+#### endpoints for store
+- GET /api/user/<user_email>
+```
+response (code 200):
+{
+    "id": str(uuid)
+}
+```
+- POST /api/user
+```
+request:
+{
+    "email": str,
+    "username": str,
+    "first_name": str,
+    "last_name": str,
+    "phone": int,
 }
 
 response (code 201):
 {
-
+    "id": str(uuid)
+    "email": str,
+    "username": str,
+    "first_name": str,
+    "last_name": str,
+    "phone": int,
+    "store_id": int
 }
 ```
+- PATCH /api/user
+```
+request:
+{
+    "email": str,
+    "username": str,
+    "first_name": str,
+    "last_name": str,
+    "phone": int,
+    "store_id": int
+}
 
+response (code 201):
+{
+    "message": "User successfully updated"
+}
+```
+- DELETE /api/user/<user_id>
+```
+
+response (code 200):
+{
+    "user": "User successfully deleted",
+    "events": "<int> events were deleted"
+}
+```
+- POST /api/event
+```
+request:
+{
+  "type": str,
+  "user_id": str,
+  "data": json
+}
+
+response (code 201):
+{
+  "id": int,
+  "type": str,
+  "store_id": int,
+  "user_id": str,
+  "data": json
+  "created_at": datetime
+}
+```
+- GET /api/event/amount/<event_type>
+```
+response (code 200):
+[
+  {
+    "date": date,
+    "event_amount": int
+  },
+  ...
+]
+```
+
+- GET /api/event/avg-time/<event_type>
+```
+response (code 200):
+[
+  {
+    "date": date,
+    "event_avg_time": float
+  },
+  ...
+]
+```
+
+#### endpoints for admin
+- GET /api/store
+```
+response (code 200):
+[
+  {
+    "id": int,
+    "name": str,
+    "is_active": bool
+  },
+  ...
+]
+```
+- POST /api/store
+```
+request:
+{
+    "name": str,
+    "is_active": bool [optional],
+    "is_admin": bool [optional]
+}
+
+response (code 201):
+[
+  {
+    "id": int,
+    "name": str,
+    "is_active": bool
+  },
+  ...
+]
+```
+- DELETE /api/store/<store_id>
+```
+
+response (code 200):
+{
+    "users": "<int> users were deleted",
+    "events": "<int> events were deleted"
+}
+```
+- POST /api/store/block
+```
+request:
+{
+    "store_id": int
+}
+
+response (code 201):
+{
+    "message": "Store successfully blocked"
+}
+```
+- GET /api/event/store-events-amount/<store_id>
+```
+response (code 200):
+[
+  {
+    "date": date,
+    "event_amount": int
+  },
+  ...
+]
+```
 
 ### User Personal Info service (port 8001)
 - GET /api/user/<user_email>
 ```
-
 response (code 200):
 {
     "id": str(uuid)
@@ -113,6 +275,14 @@ response (code 200):
     "message": "User successfully deleted"
 }
 ```
+- DELETE /api/user/by-store/<store_id>
+```
+
+response (code 200):
+{
+    "message": "<int> users were deleted"
+}
+```
 
 
 ### Event Info service (port 8002)
@@ -137,6 +307,14 @@ response (code 201):
 }
 ```
 - DELETE /api/event/<user_id>
+```
+
+response (code 200):
+{
+    "message": "<int> events were deleted"
+}
+```
+- DELETE /api/event/by-store/<store_id>
 ```
 
 response (code 200):
